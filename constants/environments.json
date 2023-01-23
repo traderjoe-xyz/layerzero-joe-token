@@ -1,0 +1,12 @@
+{
+  "mainnet": [
+    "bsc",
+    "avalanche",
+    "arbitrum"
+  ],
+  "testnet": [
+    "bsc-testnet",
+    "fuji",
+    "arbitrum-goerli"
+  ]
+}

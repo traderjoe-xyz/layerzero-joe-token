@@ -3,7 +3,7 @@ const {CHAIN_STAGE, ChainStage, ChainKey} = require("@layerzerolabs/lz-sdk");
 
 const NETWORKS = [ChainKey.AVALANCHE, ChainKey.FUJI, ChainKey.FUJI_SANDBOX, "hardhat"]
 const TRADER_JOE = {
-    [ChainStage.MAINNET]: "",
+    [ChainStage.MAINNET]: "0x6e84a6216eA6dACC71eE8E6b0a5B7322EEbC0fDd",
 }
 
 module.exports = async function ({ deployments, getNamedAccounts }) {

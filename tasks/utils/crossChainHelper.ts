@@ -123,6 +123,21 @@ export const getContract = async (hre: any, network: string, contractName: strin
     return contracts[key]
 }
 
+export const getContractAt = async (hre: any, network: string, abi: any, address: string) => {
+    if (network == "hardhat") {
+        return await hre.ethers.getContract(contractName)
+    }
+
+    const key = `${network}-Endpoint`
+    if (!contracts[key]) {
+        const contractAddress = address
+        const provider = getProvider(network)
+        const contract = await hre.ethers.getContractAt(abi, address)
+        contracts[key] = contract.connect(provider)
+    }
+    return contracts[key]
+}
+
 export const getWalletContract = async (hre, network, contractName, walletIndex) => {
     const contract = await getContract(hre, network, contractName)
     const wallet = getConnectedWallet(network, walletIndex)

@@ -2,6 +2,8 @@ import * as crossChainHelper from "./utils/crossChainHelper"
 import { Transaction } from "./utils/crossChainHelper"
 import {CHAIN_STAGE, ChainKey, ChainStage} from "@layerzerolabs/lz-sdk"
 import WIRE_UP_CONFIG from "../constants/wireUpConfig.json"
+import ENDPOINTS from "../constants/layerzeroEndpoints.json"
+import ABI from "../constants/endpoint_abi.json"
 import {ethers} from "ethers"
 import {arrayToCsv} from "./utils/utils";
 import path from "path";
@@ -50,6 +52,7 @@ module.exports = async function (taskArgs, hre) {
             }
             localContractName = localContractName === undefined ? WIRE_UP_CONFIG["contractName"][env] : localContractName;
             transactions.push(...(await setUseCustomAdapterParams(hre, localNetwork, localContractName, WIRE_UP_CONFIG[localNetwork].useCustomAdapterParams)))
+            transactions.push(...(await lockToSendAndRecvVersion(hre, localNetwork, localContractName, {sendVersion: WIRE_UP_CONFIG[localNetwork].sendVersion, receiveVersion: WIRE_UP_CONFIG[localNetwork].receiveVersion})))
             if(WIRE_UP_CONFIG[localNetwork].setDefault) {
                 transactions.push(...(await setDefaultFeeBp(hre, localNetwork, localContractName, WIRE_UP_CONFIG[localNetwork].defaultFeeBp)))
             }
@@ -61,6 +64,12 @@ module.exports = async function (taskArgs, hre) {
                 }
                 remoteContractName = remoteContractName === undefined ? WIRE_UP_CONFIG["contractName"][env] : remoteContractName;
 
+                transactions.push(...(await setInboundProofType(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[remoteNetwork].inBoundProofType)))
+                transactions.push(...(await setInboundBlockConfirmations(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[remoteNetwork].inBoundBlockConfirmations)))
+                transactions.push(...(await setRelayer(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].relayerAddress)))
+                transactions.push(...(await setOutboundProofType(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].outBoundProofType)))
+                transactions.push(...(await setOutboundBlockConfirmations(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].outBoundBlockConfirmations)))
+                transactions.push(...(await setOracle(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].oracleAddress)))
                 transactions.push(...(await setTrustedRemote(hre, localNetwork, localContractName, remoteNetwork, remoteContractName, taskArgs.e)))
                 transactions.push(...(await setMinDstGas(hre, localNetwork, localContractName, WIRE_UP_CONFIG[localNetwork]["remoteNetworkConfigs"][remoteNetwork].minDstGasConfig, CHAIN_ID[remoteNetwork])))
                 if(!WIRE_UP_CONFIG[localNetwork].setDefault) {
@@ -210,7 +219,6 @@ export function generateCalldata(hre: any, methodName: string, params: string[],
 }
 
 async function setUseCustomAdapterParams(hre: any, localNetwork: string, localContractName: string, useCustom: boolean): Promise<Transaction[]> {
-    console.log({localContractName})
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const cur = await localContract.useCustomAdapterParams()
     const needChange = cur !== useCustom
@@ -348,6 +356,245 @@ async function setTrustedRemote(hre: any, localNetwork: string, localContractNam
         tx.diff = JSON.stringify({trustedRemote: {oldValue: cur, newValue: desiredTrustedRemote}})
     }
     return [tx]
+}
+
+async function setInboundProofType(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, inBoundProofType: number): Promise<Transaction[]> {
+    const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
+    const VERSION = 2;
+    const CONFIG_TYPE_INBOUND_PROOF_LIBRARY_VERSION = 1;
+    const cur = await localContract.getConfig(VERSION,remoteChainId,ethers.constants.AddressZero,CONFIG_TYPE_INBOUND_PROOF_LIBRARY_VERSION)
+    let config = ethers.utils.defaultAbiCoder.encode(
+        ["uint16"],
+        [inBoundProofType]
+    )
+    const needChange = cur !== config
+
+
+    // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
+    const methodName = "setConfig"
+    const params = ['uint16', 'uint16', 'uint', 'bytes',]
+    let args = [VERSION,remoteChainId,CONFIG_TYPE_INBOUND_PROOF_LIBRARY_VERSION,config]
+
+    const tx: any = {
+        needChange,
+        chainId: crossChainHelper.getEndpointId(localNetwork),
+        contractName: localContractName,
+        methodName: methodName,
+        args: args,
+        calldata: generateCalldata(hre, methodName, params, args),
+    }
+    if (tx.needChange) {
+        tx.diff = JSON.stringify({ InboundProofType: { oldValue: cur, newValue: config } })
+    }
+    return [tx]
+}
+
+async function setInboundBlockConfirmations(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, inBoundConfirmations: number): Promise<Transaction[]> {
+    const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
+    const VERSION = 2;
+    const CONFIG_TYPE_INBOUND_BLOCK_CONFIRMATIONS = 2;
+    const cur = await localContract.getConfig(VERSION,remoteChainId,ethers.constants.AddressZero,CONFIG_TYPE_INBOUND_BLOCK_CONFIRMATIONS)
+    let config = ethers.utils.defaultAbiCoder.encode(
+        ["uint16"],
+        [inBoundConfirmations]
+    )
+    const needChange = cur !== config
+
+    // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
+    const methodName = "setConfig"
+    const params = ['uint16', 'uint16', 'uint', 'bytes',]
+    let args = [VERSION,remoteChainId,CONFIG_TYPE_INBOUND_BLOCK_CONFIRMATIONS,config]
+
+    const tx: any = {
+        needChange,
+        chainId: crossChainHelper.getEndpointId(localNetwork),
+        contractName: localContractName,
+        methodName: methodName,
+        args: args,
+        calldata: generateCalldata(hre, methodName, params, args),
+    }
+    if (tx.needChange) {
+        tx.diff = JSON.stringify({ InboundBlockConfirmations: { oldValue: cur, newValue: config } })
+    }
+    return [tx]
+}
+
+async function setRelayer(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, relayerAddress: string): Promise<Transaction[]> {
+    const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
+    const VERSION = 2;
+    const CONFIG_TYPE_RELAYER = 3;
+    const cur = await localContract.getConfig(VERSION,remoteChainId,ethers.constants.AddressZero,CONFIG_TYPE_RELAYER)
+    let config = ethers.utils.defaultAbiCoder.encode(
+        ["address"],
+        [relayerAddress]
+    )
+    const needChange = cur !== config
+
+    // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
+    const methodName = "setConfig"
+    const params = ['uint16', 'uint16', 'uint', 'bytes',]
+    let args = [VERSION,remoteChainId,CONFIG_TYPE_RELAYER,config]
+
+    const tx: any = {
+        needChange,
+        chainId: crossChainHelper.getEndpointId(localNetwork),
+        contractName: localContractName,
+        methodName: methodName,
+        args: args,
+        calldata: generateCalldata(hre, methodName, params, args),
+    }
+    if (tx.needChange) {
+        tx.diff = JSON.stringify({ Relayer: { oldValue: cur, newValue: config } })
+    }
+    return [tx]
+}
+
+async function setOutboundProofType(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, outBoundProofType: number): Promise<Transaction[]> {
+    const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
+    const VERSION = 2;
+    const CONFIG_TYPE_OUTBOUND_PROOF_TYPE = 4;
+    const cur = await localContract.getConfig(VERSION,remoteChainId,ethers.constants.AddressZero,CONFIG_TYPE_OUTBOUND_PROOF_TYPE)
+    let config = ethers.utils.defaultAbiCoder.encode(
+        ["uint16"],
+        [outBoundProofType]
+    )
+    const needChange = cur !== config
+
+    // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
+    const methodName = "setConfig"
+    const params = ['uint16', 'uint16', 'uint', 'bytes',]
+    let args = [VERSION,remoteChainId,CONFIG_TYPE_OUTBOUND_PROOF_TYPE,config]
+
+    const tx: any = {
+        needChange,
+        chainId: crossChainHelper.getEndpointId(localNetwork),
+        contractName: localContractName,
+        methodName: methodName,
+        args: args,
+        calldata: generateCalldata(hre, methodName, params, args),
+    }
+    if (tx.needChange) {
+        tx.diff = JSON.stringify({ OutboundProofType: { oldValue: cur, newValue: config } })
+    }
+    return [tx]
+}
+
+async function setOutboundBlockConfirmations(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, outBoundConfirmations: number): Promise<Transaction[]> {
+    const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
+    const VERSION = 2;
+    const CONFIG_TYPE_OUTBOUND_BLOCK_CONFIRMATIONS = 5;
+    const cur = await localContract.getConfig(VERSION,remoteChainId,ethers.constants.AddressZero,CONFIG_TYPE_OUTBOUND_BLOCK_CONFIRMATIONS)
+    let config = ethers.utils.defaultAbiCoder.encode(
+        ["uint16"],
+        [outBoundConfirmations]
+    )
+    const needChange = cur !== config
+
+    // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
+    const methodName = "setConfig"
+    const params = ['uint16', 'uint16', 'uint', 'bytes',]
+    let args = [VERSION,remoteChainId,CONFIG_TYPE_OUTBOUND_BLOCK_CONFIRMATIONS,config]
+
+    const tx: any = {
+        needChange,
+        chainId: crossChainHelper.getEndpointId(localNetwork),
+        contractName: localContractName,
+        methodName: methodName,
+        args: args,
+        calldata: generateCalldata(hre, methodName, params, args),
+    }
+    if (tx.needChange) {
+        tx.diff = JSON.stringify({ OutboundBlockConfirmations: { oldValue: cur, newValue: config } })
+    }
+    return [tx]
+}
+
+async function setOracle(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, oracleAddress: string): Promise<Transaction[]> {
+    const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
+    const VERSION = 2;
+    const CONFIG_TYPE_ORACLE = 6;
+    const cur = await localContract.getConfig(VERSION,remoteChainId,ethers.constants.AddressZero,CONFIG_TYPE_ORACLE)
+    let config = ethers.utils.defaultAbiCoder.encode(
+        ["address"],
+        [oracleAddress]
+    )
+    const needChange = cur !== config
+
+    // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
+    const methodName = "setConfig"
+    const params = ['uint16', 'uint16', 'uint', 'bytes',]
+    let args = [VERSION,remoteChainId,CONFIG_TYPE_ORACLE,config]
+
+    const tx: any = {
+        needChange,
+        chainId: crossChainHelper.getEndpointId(localNetwork),
+        contractName: localContractName,
+        methodName: methodName,
+        args: args,
+        calldata: generateCalldata(hre, methodName, params, args),
+    }
+    if (tx.needChange) {
+        tx.diff = JSON.stringify({ Oracle: { oldValue: cur, newValue: config } })
+    }
+    return [tx]
+}
+
+async function lockToSendAndRecvVersion(hre: any, localNetwork: string, localContractName: string, config: any): Promise<Transaction[]> {
+    const chainId = CHAIN_ID[localNetwork]
+    const contractName = localContractName
+    const transactions = []
+    const contract = await crossChainHelper.getContract(hre, localNetwork, contractName)
+    const endpoint = await crossChainHelper.getContractAt(hre, localNetwork, ABI, ENDPOINTS[localNetwork])
+
+    const getSendVersion = await endpoint.getSendVersion(contract.address)
+    const getReceiveVersion = await endpoint.getReceiveVersion(contract.address)
+    const uaConfig = await endpoint.uaConfigLookup(contract.address)
+    console.log(`${localNetwork} Contract uaConfig: ${uaConfig}`)
+    const currSendVersion = uaConfig[0]
+    const currReceiveVersion = uaConfig[1]
+    console.log(`getSendVersion: ${getSendVersion} | getReceiveVersion: ${getReceiveVersion}`)
+    console.log(`currSendVersion: ${currSendVersion} | currReceiveVersion: ${currReceiveVersion}`)
+    console.log(`config.sendVersion: ${config.sendVersion} | config.receiveVersion: ${config.receiveVersion}`)
+
+    // SEND version
+    let needChange = currSendVersion !== config.sendVersion
+    let methodName = "setSendVersion"
+    let params = ['uint16']
+    let args = [config.sendVersion]
+    let tx = {
+        needChange,
+        chainId,
+        remoteChainId: "",
+        contractName,
+        methodName,
+        args,
+        calldata: generateCalldata(hre, methodName, params, args)
+    }
+    if (needChange) {
+        tx.diff = JSON.stringify({ SendVersion: { oldValue: currSendVersion, newValue: config.sendVersion }})
+    }
+    transactions.push(tx)
+
+    // RECEIVE version
+    needChange = currReceiveVersion !== config.receiveVersion
+    methodName = "setReceiveVersion"
+    params = ['uint16']
+    args = [config.receiveVersion]
+    tx = {
+        needChange,
+        chainId,
+        remoteChainId: "",
+        contractName,
+        methodName,
+        args,
+        calldata: generateCalldata(hre, methodName, params, args)
+    }
+    if (needChange) {
+        tx.diff = JSON.stringify({ ReceiveVersion: { oldValue: currReceiveVersion, newValue: config.receiveVersion }})
+    }
+    transactions.push(tx)
+
+    return transactions
 }
 
 export function validateStageOfNetworks(stage: ChainStage, localNetworks: string[], remoteNetworks: string[]) {

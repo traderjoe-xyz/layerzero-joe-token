@@ -11,6 +11,93 @@
     "testnet": "JoeTokenOFT",
     "mainnet": "JoeTokenOFT"
   },
+  "avalanche": {
+    "setDefault": true,
+    "defaultFeeBp": 0,
+    "useCustomAdapterParams": true,
+    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
+    "relayerAddress": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
+    "sendVersion": 2,
+    "receiveVersion": 2,
+    "inBoundProofType": 2,
+    "outBoundProofType": 2,
+    "inBoundBlockConfirmations": 12,
+    "outBoundBlockConfirmations": 12,
+    "remoteNetworkConfigs": {
+      "bsc":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
+      },
+      "arbitrum":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [2000000, 3200000]
+      }
+    }
+  },
+  "bsc": {
+    "setDefault": true,
+    "defaultFeeBp": 0,
+    "useCustomAdapterParams": true,
+    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
+    "relayerAddress": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
+    "sendVersion": 2,
+    "receiveVersion": 2,
+    "inBoundProofType": 2,
+    "outBoundProofType": 2,
+    "inBoundBlockConfirmations": 20,
+    "outBoundBlockConfirmations": 20,
+    "remoteNetworkConfigs": {
+      "avalanche":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
+      },
+      "arbitrum":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [2000000, 3200000]
+      }
+    }
+  },
+  "arbitrum": {
+    "setDefault": true,
+    "defaultFeeBp": 0,
+    "useCustomAdapterParams": true,
+    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
+    "relayerAddress": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+    "sendVersion": 2,
+    "receiveVersion": 2,
+    "inBoundProofType": 2,
+    "outBoundProofType": 2,
+    "inBoundBlockConfirmations": 20,
+    "outBoundBlockConfirmations": 20,
+    "remoteNetworkConfigs": {
+      "bsc":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
+      },
+      "avalanche":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
+      }
+    }
+  },
   "fuji": {
     "setDefault": true,
     "defaultFeeBp": 0,
@@ -66,69 +153,6 @@
         "minDstGasConfig": [100000, 160000]
       },
       "fuji":  {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      }
-    }
-  },
-  "avalanche": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "remoteNetworkConfigs": {
-      "bsc":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "arbitrum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [2000000, 3200000]
-      }
-    }
-  },
-  "bsc": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "remoteNetworkConfigs": {
-      "avalanche":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "arbitrum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [2000000, 3200000]
-      }
-    }
-  },
-  "arbitrum": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "remoteNetworkConfigs": {
-      "bsc":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "avalanche":    {
         "feeBpConfig": {
           "feeBp": 0,
           "enabled": true

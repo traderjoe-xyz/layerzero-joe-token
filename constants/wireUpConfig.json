@@ -19,8 +19,8 @@
     "relayerAddress": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
     "sendVersion": 2,
     "receiveVersion": 2,
-    "inBoundProofType": 2,
-    "outBoundProofType": 2,
+    "inBoundProofType": 1,
+    "outBoundProofType": 1,
     "inBoundBlockConfirmations": 12,
     "outBoundBlockConfirmations": 12,
     "remoteNetworkConfigs": {
@@ -48,8 +48,8 @@
     "relayerAddress": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
     "sendVersion": 2,
     "receiveVersion": 2,
-    "inBoundProofType": 2,
-    "outBoundProofType": 2,
+    "inBoundProofType": 1,
+    "outBoundProofType": 1,
     "inBoundBlockConfirmations": 20,
     "outBoundBlockConfirmations": 20,
     "remoteNetworkConfigs": {
@@ -77,8 +77,8 @@
     "relayerAddress": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
     "sendVersion": 2,
     "receiveVersion": 2,
-    "inBoundProofType": 2,
-    "outBoundProofType": 2,
+    "inBoundProofType": 1,
+    "outBoundProofType": 1,
     "inBoundBlockConfirmations": 20,
     "outBoundBlockConfirmations": 20,
     "remoteNetworkConfigs": {

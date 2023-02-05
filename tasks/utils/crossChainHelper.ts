@@ -227,28 +227,16 @@ export const executeGnosisTransactions = async (hre: any, network: string, trans
 
 
 export const GNOSIS_CONFIG = {
-    [ChainKey.ETHEREUM]: {
-        safeAddress: "0xa36B7e7894aCfaa6c35A8A0EC630B71A6B8A6D22",
-        url: "https://safe-transaction.mainnet.gnosis.io/",
-    },
     [ChainKey.BSC]: {
-        safeAddress: "0x4755D44c1C196dC524848200B0556A09084D1dFD",
+        safeAddress: "0x2d5C468Ec1DCcF3FdEb47211df726496D113C10F",
         url: "https://safe-transaction.bsc.gnosis.io/",
     },
     [ChainKey.AVALANCHE]: {
-        safeAddress: "0x4FF2C33FD9042a76eaC920C037383E51659417Ee",
+        safeAddress: "0x2fbB61a10B96254900C03F1644E9e1d2f5E76DD2",
         url: "https://safe-transaction.avalanche.gnosis.io/",
     },
-    [ChainKey.POLYGON]: {
-        safeAddress: "0x1eF2691ada0E282E6ba31DcAD10F7C0Bc9E96b1f",
-        url: "https://safe-transaction.polygon.gnosis.io/",
-    },
     [ChainKey.ARBITRUM]: {
-        safeAddress: "0x873F403411B0Dac132e8Af4D93308Df70a030c86",
+        safeAddress: "0xf1ec4E41B49582aF7E00D6525AF78111F37b94a8",
         url: "https://safe-transaction.arbitrum.gnosis.io",
-    },
-    [ChainKey.OPTIMISM]: {
-        safeAddress: "0x1E1817928dA8c4329CCd3354C0565d0486888D29",
-        url: "https://safe-transaction.optimism.gnosis.io/",
     }
 }

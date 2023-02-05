@@ -42,7 +42,7 @@ module.exports = async function (taskArgs, hre) {
     console.log(`************************************************`)
     console.log(`Computing diff`)
     console.log(`************************************************`)
-
+    let lockDown = true;
     let transactionBynetwork = await Promise.all(
         localNetworks.map(async (localNetwork) => {
             const transactions: crossChainHelper.Transaction[] = []
@@ -52,7 +52,7 @@ module.exports = async function (taskArgs, hre) {
             }
             localContractName = localContractName === undefined ? WIRE_UP_CONFIG["contractName"][env] : localContractName;
             transactions.push(...(await setUseCustomAdapterParams(hre, localNetwork, localContractName, WIRE_UP_CONFIG[localNetwork].useCustomAdapterParams)))
-            transactions.push(...(await lockToSendAndRecvVersion(hre, localNetwork, localContractName, {sendVersion: WIRE_UP_CONFIG[localNetwork].sendVersion, receiveVersion: WIRE_UP_CONFIG[localNetwork].receiveVersion})))
+            transactions.push(...(await lockToSendAndRecvVersion(hre, localNetwork, localContractName, {sendVersion: WIRE_UP_CONFIG[localNetwork].sendVersion, receiveVersion: WIRE_UP_CONFIG[localNetwork].receiveVersion, lockDown})))
             if(WIRE_UP_CONFIG[localNetwork].setDefault) {
                 transactions.push(...(await setDefaultFeeBp(hre, localNetwork, localContractName, WIRE_UP_CONFIG[localNetwork].defaultFeeBp)))
             }
@@ -64,11 +64,11 @@ module.exports = async function (taskArgs, hre) {
                 }
                 remoteContractName = remoteContractName === undefined ? WIRE_UP_CONFIG["contractName"][env] : remoteContractName;
 
-                transactions.push(...(await setInboundProofType(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[remoteNetwork].inBoundProofType)))
-                transactions.push(...(await setInboundBlockConfirmations(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[remoteNetwork].inBoundBlockConfirmations)))
-                transactions.push(...(await setRelayer(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].relayerAddress)))
-                transactions.push(...(await setOutboundProofType(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].outBoundProofType)))
-                transactions.push(...(await setOutboundBlockConfirmations(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].outBoundBlockConfirmations)))
+                transactions.push(...(await setInboundProofType(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[remoteNetwork].inBoundProofType, lockDown)))
+                transactions.push(...(await setInboundBlockConfirmations(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[remoteNetwork].inBoundBlockConfirmations, lockDown)))
+                transactions.push(...(await setRelayer(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].relayerAddress, lockDown)))
+                transactions.push(...(await setOutboundProofType(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].outBoundProofType, lockDown)))
+                transactions.push(...(await setOutboundBlockConfirmations(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].outBoundBlockConfirmations, lockDown)))
                 transactions.push(...(await setOracle(hre, localNetwork, localContractName, CHAIN_ID[remoteNetwork], WIRE_UP_CONFIG[localNetwork].oracleAddress)))
                 transactions.push(...(await setTrustedRemote(hre, localNetwork, localContractName, remoteNetwork, remoteContractName, taskArgs.e)))
                 transactions.push(...(await setMinDstGas(hre, localNetwork, localContractName, WIRE_UP_CONFIG[localNetwork]["remoteNetworkConfigs"][remoteNetwork].minDstGasConfig, CHAIN_ID[remoteNetwork])))
@@ -358,7 +358,7 @@ async function setTrustedRemote(hre: any, localNetwork: string, localContractNam
     return [tx]
 }
 
-async function setInboundProofType(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, inBoundProofType: number): Promise<Transaction[]> {
+async function setInboundProofType(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, inBoundProofType: number, lockDown: boolean = false): Promise<Transaction[]> {
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const VERSION = 2;
     const CONFIG_TYPE_INBOUND_PROOF_LIBRARY_VERSION = 1;
@@ -367,7 +367,8 @@ async function setInboundProofType(hre: any, localNetwork: string, localContract
         ["uint16"],
         [inBoundProofType]
     )
-    const needChange = cur !== config
+    // set to true to lock down config
+    const needChange = lockDown ? lockDown : cur !== config
 
 
     // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
@@ -378,8 +379,9 @@ async function setInboundProofType(hre: any, localNetwork: string, localContract
     const tx: any = {
         needChange,
         chainId: crossChainHelper.getEndpointId(localNetwork),
+        remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: methodName,
+        methodName: "setInboundProofType",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -389,7 +391,7 @@ async function setInboundProofType(hre: any, localNetwork: string, localContract
     return [tx]
 }
 
-async function setInboundBlockConfirmations(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, inBoundConfirmations: number): Promise<Transaction[]> {
+async function setInboundBlockConfirmations(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, inBoundConfirmations: number, lockDown: boolean = false): Promise<Transaction[]> {
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const VERSION = 2;
     const CONFIG_TYPE_INBOUND_BLOCK_CONFIRMATIONS = 2;
@@ -398,7 +400,7 @@ async function setInboundBlockConfirmations(hre: any, localNetwork: string, loca
         ["uint16"],
         [inBoundConfirmations]
     )
-    const needChange = cur !== config
+    const needChange = lockDown ? lockDown : cur !== config
 
     // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
     const methodName = "setConfig"
@@ -408,8 +410,9 @@ async function setInboundBlockConfirmations(hre: any, localNetwork: string, loca
     const tx: any = {
         needChange,
         chainId: crossChainHelper.getEndpointId(localNetwork),
+        remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: methodName,
+        methodName: "setInboundBlockConfirmations",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -419,7 +422,7 @@ async function setInboundBlockConfirmations(hre: any, localNetwork: string, loca
     return [tx]
 }
 
-async function setRelayer(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, relayerAddress: string): Promise<Transaction[]> {
+async function setRelayer(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, relayerAddress: string, lockDown: boolean = false): Promise<Transaction[]> {
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const VERSION = 2;
     const CONFIG_TYPE_RELAYER = 3;
@@ -428,7 +431,7 @@ async function setRelayer(hre: any, localNetwork: string, localContractName: str
         ["address"],
         [relayerAddress]
     )
-    const needChange = cur !== config
+    const needChange = lockDown ? lockDown : cur !== config
 
     // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
     const methodName = "setConfig"
@@ -438,8 +441,9 @@ async function setRelayer(hre: any, localNetwork: string, localContractName: str
     const tx: any = {
         needChange,
         chainId: crossChainHelper.getEndpointId(localNetwork),
+        remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: methodName,
+        methodName: "setRelayer",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -449,7 +453,7 @@ async function setRelayer(hre: any, localNetwork: string, localContractName: str
     return [tx]
 }
 
-async function setOutboundProofType(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, outBoundProofType: number): Promise<Transaction[]> {
+async function setOutboundProofType(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, outBoundProofType: number, lockDown: boolean = false): Promise<Transaction[]> {
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const VERSION = 2;
     const CONFIG_TYPE_OUTBOUND_PROOF_TYPE = 4;
@@ -458,7 +462,7 @@ async function setOutboundProofType(hre: any, localNetwork: string, localContrac
         ["uint16"],
         [outBoundProofType]
     )
-    const needChange = cur !== config
+    const needChange = lockDown ? lockDown : cur !== config
 
     // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
     const methodName = "setConfig"
@@ -468,8 +472,9 @@ async function setOutboundProofType(hre: any, localNetwork: string, localContrac
     const tx: any = {
         needChange,
         chainId: crossChainHelper.getEndpointId(localNetwork),
+        remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: methodName,
+        methodName: "setOutboundProofType",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -479,7 +484,7 @@ async function setOutboundProofType(hre: any, localNetwork: string, localContrac
     return [tx]
 }
 
-async function setOutboundBlockConfirmations(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, outBoundConfirmations: number): Promise<Transaction[]> {
+async function setOutboundBlockConfirmations(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, outBoundConfirmations: number, lockDown: boolean = false): Promise<Transaction[]> {
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const VERSION = 2;
     const CONFIG_TYPE_OUTBOUND_BLOCK_CONFIRMATIONS = 5;
@@ -488,7 +493,7 @@ async function setOutboundBlockConfirmations(hre: any, localNetwork: string, loc
         ["uint16"],
         [outBoundConfirmations]
     )
-    const needChange = cur !== config
+    const needChange = lockDown ? lockDown : cur !== config
 
     // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
     const methodName = "setConfig"
@@ -498,8 +503,9 @@ async function setOutboundBlockConfirmations(hre: any, localNetwork: string, loc
     const tx: any = {
         needChange,
         chainId: crossChainHelper.getEndpointId(localNetwork),
+        remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: methodName,
+        methodName: "setOutboundBlockConfirmations",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -509,7 +515,7 @@ async function setOutboundBlockConfirmations(hre: any, localNetwork: string, loc
     return [tx]
 }
 
-async function setOracle(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, oracleAddress: string): Promise<Transaction[]> {
+async function setOracle(hre: any, localNetwork: string, localContractName: string, remoteChainId: number, oracleAddress: string, lockDown: boolean = false): Promise<Transaction[]> {
     const localContract = await crossChainHelper.getContract(hre, localNetwork, localContractName)
     const VERSION = 2;
     const CONFIG_TYPE_ORACLE = 6;
@@ -518,7 +524,7 @@ async function setOracle(hre: any, localNetwork: string, localContractName: stri
         ["address"],
         [oracleAddress]
     )
-    const needChange = cur !== config
+    const needChange = lockDown ? lockDown : cur !== config
 
     // function setConfig(uint16 _version, uint16 _chainId, uint _configType, bytes calldata _config)
     const methodName = "setConfig"
@@ -528,18 +534,20 @@ async function setOracle(hre: any, localNetwork: string, localContractName: stri
     const tx: any = {
         needChange,
         chainId: crossChainHelper.getEndpointId(localNetwork),
+        remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: methodName,
+        methodName: "setOracle",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
+
     if (tx.needChange) {
         tx.diff = JSON.stringify({ Oracle: { oldValue: cur, newValue: config } })
     }
     return [tx]
 }
 
-async function lockToSendAndRecvVersion(hre: any, localNetwork: string, localContractName: string, config: any): Promise<Transaction[]> {
+async function lockToSendAndRecvVersion(hre: any, localNetwork: string, localContractName: string, config: any, lockDown: boolean = false): Promise<Transaction[]> {
     const chainId = CHAIN_ID[localNetwork]
     const contractName = localContractName
     const transactions = []
@@ -549,15 +557,11 @@ async function lockToSendAndRecvVersion(hre: any, localNetwork: string, localCon
     const getSendVersion = await endpoint.getSendVersion(contract.address)
     const getReceiveVersion = await endpoint.getReceiveVersion(contract.address)
     const uaConfig = await endpoint.uaConfigLookup(contract.address)
-    console.log(`${localNetwork} Contract uaConfig: ${uaConfig}`)
     const currSendVersion = uaConfig[0]
     const currReceiveVersion = uaConfig[1]
-    console.log(`getSendVersion: ${getSendVersion} | getReceiveVersion: ${getReceiveVersion}`)
-    console.log(`currSendVersion: ${currSendVersion} | currReceiveVersion: ${currReceiveVersion}`)
-    console.log(`config.sendVersion: ${config.sendVersion} | config.receiveVersion: ${config.receiveVersion}`)
 
     // SEND version
-    let needChange = currSendVersion !== config.sendVersion
+    let needChange = lockDown ? lockDown : currSendVersion !== config.sendVersion
     let methodName = "setSendVersion"
     let params = ['uint16']
     let args = [config.sendVersion]
@@ -576,7 +580,7 @@ async function lockToSendAndRecvVersion(hre: any, localNetwork: string, localCon
     transactions.push(tx)
 
     // RECEIVE version
-    needChange = currReceiveVersion !== config.receiveVersion
+    needChange = lockDown ? lockDown : currReceiveVersion !== config.receiveVersion
     methodName = "setReceiveVersion"
     params = ['uint16']
     args = [config.receiveVersion]

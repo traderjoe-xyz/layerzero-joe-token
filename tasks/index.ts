@@ -11,6 +11,7 @@ task("oftSend", "send tokens to another chain", require("./oftSend"))
 task("transferOwnershipToMultisig", "transfer the contract to the multisig", require("./transferOwnershipToMultisig"))
 
 // npx hardhat wireAll --e testnet --s arbitrum-goerli,fuji,bsc-testnet --d arbitrum-goerli,fuji,bsc-testnet
+// npx hardhat wireAll --e mainnet --s avalanche,bsc,arbitrum  --d avalanche,bsc,arbitrum --n true
 task("wireAll", "", require("./wireAll"))
     .addParam("e", "the environment ie: mainnet, testnet or sandbox")
     .addParam("s", "comma seperated list of networks to config on")

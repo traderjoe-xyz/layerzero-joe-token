@@ -1,18 +1,13 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
+// this is a MOCK
 contract Token is ERC20 {
-    // this is a MOCK
     constructor(string memory name_, string memory symbol_) ERC20(name_, symbol_) {
-        _mint(msg.sender, 1_000_000_000 * 10**decimals()); // mint 1B to deployoooor
+        _mint(msg.sender, 1_000_000_000 * 10**decimals());
     }
 
-    function decimals() public pure override returns (uint8){
-        return 18;
-    }
-
-    // this is a MOCK
-    function mint(address _to, uint _amount) public {
+    function mint(address _to, uint256 _amount) public {
         _mint(_to, _amount);
     }
 }

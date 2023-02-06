@@ -18,7 +18,6 @@ module.exports = async function (taskArgs, hre) {
     console.log(`CURRENT SIGNER: ${signers[0].address}`)
     const localNetworks = taskArgs.s.split(",")
     const remoteNetworks = taskArgs.d.split(",")
-    // remoteNetworks.push(...taskArgs.nonEvms !== undefined ? taskArgs.nonEvms.split(",") : [])
     const env = taskArgs.e
 
     let stage;

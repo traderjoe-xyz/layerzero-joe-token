@@ -1,6 +1,6 @@
 import { task, types } from "hardhat/config"
 
-//
+// npx hardhat --network arbitrum oftSend --qty 1000000000000000000 --target-network avalanche --local-contract JoeTokenOFT --remote-contract JoeTokenProxyOFT
 task("oftSend", "send tokens to another chain", require("./oftSend"))
     .addParam("qty", "qty of tokens to send")
     .addParam("targetNetwork", "the target network to let this instance receive messages from")
@@ -8,9 +8,6 @@ task("oftSend", "send tokens to another chain", require("./oftSend"))
     .addOptionalParam("remoteContract", "Name of remote contract if the names are different")
     .addOptionalParam("contract", "If both contracts are the same name")
 
-task("transferOwnershipToMultisig", "transfer the contract to the multisig", require("./transferOwnershipToMultisig"))
-
-// npx hardhat wireAll --e testnet --s arbitrum-goerli,fuji,bsc-testnet --d arbitrum-goerli,fuji,bsc-testnet
 // npx hardhat wireAll --e mainnet --s avalanche,bsc,arbitrum  --d avalanche,bsc,arbitrum --n true
 task("wireAll", "", require("./wireAll"))
     .addParam("e", "the environment ie: mainnet, testnet or sandbox")

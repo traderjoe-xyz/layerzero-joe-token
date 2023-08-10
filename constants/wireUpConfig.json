@@ -1,14 +1,11 @@
 {
   "proxyChain": {
-    "testnet": "fuji",
     "mainnet": "avalanche"
   },
   "proxyContractName": {
-    "testnet": "JoeTokenProxyOFT",
     "mainnet": "JoeTokenProxyOFT"
   },
   "contractName": {
-    "testnet": "JoeTokenOFT",
     "mainnet": "JoeTokenOFT"
   },
   "avalanche": {
@@ -17,8 +14,8 @@
     "useCustomAdapterParams": true,
     "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
     "relayerAddress": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
-    "sendVersion": 2,
-    "receiveVersion": 2,
+    "sendVersion": 0,
+    "receiveVersion": 0,
     "inBoundProofType": 1,
     "outBoundProofType": 1,
     "inBoundBlockConfirmations": 12,
@@ -37,6 +34,13 @@
           "enabled": true
         },
         "minDstGasConfig": [2000000, 3200000]
+      },
+      "ethereum":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
       }
     }
   },
@@ -46,8 +50,8 @@
     "useCustomAdapterParams": true,
     "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
     "relayerAddress": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
-    "sendVersion": 2,
-    "receiveVersion": 2,
+    "sendVersion": 0,
+    "receiveVersion": 0,
     "inBoundProofType": 1,
     "outBoundProofType": 1,
     "inBoundBlockConfirmations": 20,
@@ -66,6 +70,13 @@
           "enabled": true
         },
         "minDstGasConfig": [2000000, 3200000]
+      },
+      "ethereum":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
       }
     }
   },
@@ -75,8 +86,8 @@
     "useCustomAdapterParams": true,
     "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
     "relayerAddress": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    "sendVersion": 2,
-    "receiveVersion": 2,
+    "sendVersion": 0,
+    "receiveVersion": 0,
     "inBoundProofType": 1,
     "outBoundProofType": 1,
     "inBoundBlockConfirmations": 20,
@@ -95,64 +106,44 @@
           "enabled": true
         },
         "minDstGasConfig": [100000, 160000]
+      },
+      "ethereum":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
       }
     }
   },
-  "fuji": {
+  "ethereum": {
     "setDefault": true,
     "defaultFeeBp": 0,
     "useCustomAdapterParams": true,
+    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
+    "relayerAddress": "0x902F09715B6303d4173037652FA7377e5b98089E",
+    "sendVersion": 0,
+    "receiveVersion": 0,
+    "inBoundProofType": 1,
+    "outBoundProofType": 1,
+    "inBoundBlockConfirmations": 15,
+    "outBoundBlockConfirmations": 15,
     "remoteNetworkConfigs": {
-      "arbitrum-goerli":  {
+      "bsc":    {
+        "feeBpConfig": {
+          "feeBp": 0,
+          "enabled": true
+        },
+        "minDstGasConfig": [100000, 160000]
+      },
+      "arbitrum":    {
         "feeBpConfig": {
           "feeBp": 0,
           "enabled": true
         },
         "minDstGasConfig": [2000000, 3200000]
       },
-      "bsc-testnet":  {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      }
-    }
-  },
-  "bsc-testnet": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "remoteNetworkConfigs": {
-      "arbitrum-goerli":  {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [2000000, 3200000]
-      },
-      "fuji":  {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      }
-    }
-  },
-  "arbitrum-goerli": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "remoteNetworkConfigs": {
-      "bsc-testnet":  {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "fuji":  {
+      "avalanche":    {
         "feeBpConfig": {
           "feeBp": 0,
           "enabled": true

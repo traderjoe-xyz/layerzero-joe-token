@@ -41,7 +41,7 @@ module.exports = async function (taskArgs, hre) {
     console.log(`************************************************`)
     console.log(`Computing diff`)
     console.log(`************************************************`)
-    let lockDown = true;
+    let lockDown = false;
     let transactionBynetwork = await Promise.all(
         localNetworks.map(async (localNetwork) => {
             const transactions: crossChainHelper.Transaction[] = []
@@ -380,7 +380,7 @@ async function setInboundProofType(hre: any, localNetwork: string, localContract
         chainId: crossChainHelper.getEndpointId(localNetwork),
         remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: "setInboundProofType",
+        methodName: "setConfig",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -411,7 +411,7 @@ async function setInboundBlockConfirmations(hre: any, localNetwork: string, loca
         chainId: crossChainHelper.getEndpointId(localNetwork),
         remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: "setInboundBlockConfirmations",
+        methodName: "setConfig",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -442,7 +442,7 @@ async function setRelayer(hre: any, localNetwork: string, localContractName: str
         chainId: crossChainHelper.getEndpointId(localNetwork),
         remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: "setRelayer",
+        methodName: "setConfig",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -473,7 +473,7 @@ async function setOutboundProofType(hre: any, localNetwork: string, localContrac
         chainId: crossChainHelper.getEndpointId(localNetwork),
         remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: "setOutboundProofType",
+        methodName: "setConfig",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -504,7 +504,7 @@ async function setOutboundBlockConfirmations(hre: any, localNetwork: string, loc
         chainId: crossChainHelper.getEndpointId(localNetwork),
         remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: "setOutboundBlockConfirmations",
+        methodName: "setConfig",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }
@@ -535,7 +535,7 @@ async function setOracle(hre: any, localNetwork: string, localContractName: stri
         chainId: crossChainHelper.getEndpointId(localNetwork),
         remoteChainId: remoteChainId,
         contractName: localContractName,
-        methodName: "setOracle",
+        methodName: "setConfig",
         args: args,
         calldata: generateCalldata(hre, methodName, params, args),
     }

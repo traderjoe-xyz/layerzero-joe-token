@@ -7,6 +7,7 @@ import "solidity-coverage"
 import "hardhat-gas-reporter"
 import "hardhat-deploy"
 import "hardhat-deploy-ethers"
+import "@layerzerolabs/ua-utils"
 import "./tasks"
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname+'/.env' });
@@ -69,24 +70,29 @@ const config: HardhatUserConfig = {
     hardhat: {
       accounts: accounts(),
     },
-     ethereum: {
+     'ethereum-mainnet': {
        url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", // public infura endpoint
        chainId: 1,
        accounts: accounts(),
      },
-    bsc: {
+    'bsc-mainnet': {
       url: "https://bsc-dataseed1.binance.org",
       chainId: 56,
       accounts: accounts(),
     },
-    avalanche: {
+    'avalanche-mainnet': {
       url: "https://api.avax.network/ext/bc/C/rpc",
       chainId: 43114,
       accounts: accounts(),
     },
-    arbitrum: {
+    'arbitrum-mainnet': {
       url: `https://arb1.arbitrum.io/rpc`,
       chainId: 42161,
+      accounts: accounts(),
+    },
+    'mantle-mainnet': {
+      url: "https://rpc.mantle.xyz",
+      chainId: 5000,
       accounts: accounts(),
     },
     'bsc-testnet': {

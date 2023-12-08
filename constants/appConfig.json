@@ -1,0 +1,138 @@
+{
+	"avalanche-mainnet": {
+		"name": "JoeTokenProxyOFT",
+		"sendVersion": 2,
+		"receiveVersion": 2,
+		"remoteConfigs": [
+			{
+				"remoteChain": "bsc-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 20,
+				"relayer": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 12,
+				"oracle": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539"
+			},
+			{
+				"remoteChain": "arbitrum-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 20,
+				"relayer": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 12,
+				"oracle": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539"
+			},
+			{
+				"remoteChain": "mantle-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 2,
+				"relayer": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 12,
+				"oracle": "0x5a54fe5234E811466D5366846283323c954310B2"
+			}
+		]
+	},
+	"bsc-mainnet": {
+		"name": "JoeTokenOFT",
+		"sendVersion": 2,
+		"receiveVersion": 2,
+		"remoteConfigs": [
+			{
+				"remoteChain": "avalanche-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 12,
+				"relayer": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 20,
+				"oracle": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539"
+			},
+			{
+				"remoteChain": "arbitrum-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 20,
+				"relayer": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 20,
+				"oracle": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539"
+			},
+			{
+				"remoteChain": "mantle-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 2,
+				"relayer": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 20,
+				"oracle": "0x5a54fe5234E811466D5366846283323c954310B2"
+			}
+		]
+	},
+	"arbitrum-mainnet": {
+		"name": "JoeTokenOFT",
+		"sendVersion": 2,
+		"receiveVersion": 2,
+		"remoteConfigs": [
+			{
+				"remoteChain": "avalanche-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 12,
+				"relayer": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 20,
+				"oracle": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539"
+			},
+			{
+				"remoteChain": "bsc-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 20,
+				"relayer": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 20,
+				"oracle": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539"
+			},
+			{
+				"remoteChain": "mantle-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 2,
+				"relayer": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 20,
+				"oracle": "0xA0Cc33Dd6f4819D473226257792AFe230EC3c67f"
+			}
+		]
+	},
+	"mantle-mainnet": {
+		"name": "JoeTokenOFT",
+		"sendVersion": 1,
+		"receiveVersion": 1,
+		"remoteConfigs": [
+			{
+				"remoteChain": "avalanche-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 12,
+				"relayer": "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 2,
+				"oracle": "0xAaB5A48CFC03Efa9cC34A2C1aAcCCB84b4b770e4"
+			},
+			{
+				"remoteChain": "bsc-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 20,
+				"relayer": "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 2,
+				"oracle": "0xAaB5A48CFC03Efa9cC34A2C1aAcCCB84b4b770e4"
+			},
+			{
+				"remoteChain": "arbitrum-mainnet",
+				"inboundProofLibraryVersion": 2,
+				"inboundBlockConfirmations": 20,
+				"relayer": "0xcb566e3B6934Fa77258d68ea18E931fa75e1aaAa",
+				"outboundProofType": 2,
+				"outboundBlockConfirmations": 2,
+				"oracle": "0xAaB5A48CFC03Efa9cC34A2C1aAcCCB84b4b770e4"
+			}
+		]
+	}
+}

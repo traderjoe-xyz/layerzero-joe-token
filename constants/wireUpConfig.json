@@ -1,154 +1,150 @@
 {
-  "proxyChain": {
-    "mainnet": "avalanche"
+  "proxyContractConfig": {
+    "chain": "avalanche-mainnet",
+    "name": "JoeTokenProxyOFT"
   },
-  "proxyContractName": {
-    "mainnet": "JoeTokenProxyOFT"
+  "contractConfig": {
+    "name": "JoeTokenOFT"
   },
-  "contractName": {
-    "mainnet": "JoeTokenOFT"
-  },
-  "avalanche": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
-    "relayerAddress": "0xCD2E3622d483C7Dc855F72e5eafAdCD577ac78B4",
-    "sendVersion": 0,
-    "receiveVersion": 0,
-    "inBoundProofType": 1,
-    "outBoundProofType": 1,
-    "inBoundBlockConfirmations": 12,
-    "outBoundBlockConfirmations": 12,
-    "remoteNetworkConfigs": {
-      "bsc":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+  "chainConfig": {
+    "avalanche-mainnet": {
+      "useCustomAdapterParams": true,
+      "remoteNetworkConfig": {
+        "bsc-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
         },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "arbitrum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+        "arbitrum-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 2000000,
+            "packetType_1": 3200000
+          }
         },
-        "minDstGasConfig": [2000000, 3200000]
-      },
-      "ethereum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
+        "mantle-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
+        }
       }
-    }
-  },
-  "bsc": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
-    "relayerAddress": "0xA27A2cA24DD28Ce14Fb5f5844b59851F03DCf182",
-    "sendVersion": 0,
-    "receiveVersion": 0,
-    "inBoundProofType": 1,
-    "outBoundProofType": 1,
-    "inBoundBlockConfirmations": 20,
-    "outBoundBlockConfirmations": 20,
-    "remoteNetworkConfigs": {
-      "avalanche":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+    },
+    "bsc-mainnet": {
+      "useCustomAdapterParams": true,
+      "remoteNetworkConfig": {
+        "avalanche-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
         },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "arbitrum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+        "arbitrum-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 2000000,
+            "packetType_1": 3200000
+          }
         },
-        "minDstGasConfig": [2000000, 3200000]
-      },
-      "ethereum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
+        "mantle-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
+        }
       }
-    }
-  },
-  "arbitrum": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
-    "relayerAddress": "0x177d36dBE2271A4DdB2Ad8304d82628eb921d790",
-    "sendVersion": 0,
-    "receiveVersion": 0,
-    "inBoundProofType": 1,
-    "outBoundProofType": 1,
-    "inBoundBlockConfirmations": 20,
-    "outBoundBlockConfirmations": 20,
-    "remoteNetworkConfigs": {
-      "bsc":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+    },
+    "arbitrum-mainnet": {
+      "useCustomAdapterParams": true,
+      "remoteNetworkConfig": {
+        "avalanche-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
         },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "avalanche":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+        "bsc-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
         },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "ethereum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
+        "mantle-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
+        }
       }
-    }
-  },
-  "ethereum": {
-    "setDefault": true,
-    "defaultFeeBp": 0,
-    "useCustomAdapterParams": true,
-    "oracleAddress": "0x150A58e9E6BF69ccEb1DBA5ae97C166DC8792539",
-    "relayerAddress": "0x902F09715B6303d4173037652FA7377e5b98089E",
-    "sendVersion": 0,
-    "receiveVersion": 0,
-    "inBoundProofType": 1,
-    "outBoundProofType": 1,
-    "inBoundBlockConfirmations": 15,
-    "outBoundBlockConfirmations": 15,
-    "remoteNetworkConfigs": {
-      "bsc":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+    },
+    "mantle-mainnet": {
+      "useCustomAdapterParams": true,
+      "remoteNetworkConfig": {
+        "avalanche-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
         },
-        "minDstGasConfig": [100000, 160000]
-      },
-      "arbitrum":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
+        "bsc-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 100000,
+            "packetType_1": 160000
+          }
         },
-        "minDstGasConfig": [2000000, 3200000]
-      },
-      "avalanche":    {
-        "feeBpConfig": {
-          "feeBp": 0,
-          "enabled": true
-        },
-        "minDstGasConfig": [100000, 160000]
+        "arbitrum-mainnet": {
+          "feeBpConfig": {
+            "feeBp": 0,
+            "enabled": false
+          },
+          "minDstGasConfig": {
+            "packetType_0": 2000000,
+            "packetType_1": 3200000
+          }
+        }
       }
     }
   }

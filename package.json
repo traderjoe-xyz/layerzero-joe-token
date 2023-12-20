@@ -17,6 +17,7 @@
     "@layerzerolabs/lz-aptos": "^1.0.6",
     "@layerzerolabs/lz-sdk": "^0.0.10",
     "@layerzerolabs/solidity-examples": "^0.0.7",
+    "@layerzerolabs/ua-utils": "^0.0.26",
     "@nomiclabs/hardhat-etherscan": "3.0.3",
     "@openzeppelin/contracts": "^4.4.1",
     "commander": "^9.4.0",
